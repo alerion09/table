@@ -1,9 +1,6 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-$margin: 5vw;
+
+$primary-border: solid 1px black;
+
 @mixin selected {
     outline: 2px solid rgb(0, 0, 0);
     cursor: pointer;
@@ -26,20 +23,25 @@ $margin: 5vw;
     font-size: 100%;
     cursor: pointer;
 }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
     background-color: rgb(255, 255, 255);
     width: 100%;
 }
 .container {
     @include flexCenter(column);
-    margin-top: $margin;
+    margin-top: 5vh;
 }
 table{
     width: 95%;
     box-sizing: border-box;
 }
 table, th, td {
-    border: solid 1px black;
+    border: $primary-border;
 }
 td {
     padding:5px;
@@ -67,19 +69,26 @@ td {
     display:none;
 }
 #column-position {
-    width: 20px;
+    width: 40px;
     text-align: center;
     margin-left: 10px;
     margin-right: 10px;
 }
 .column-position-container {
     @include flexCenter(row);
+    margin-bottom: 2vh;
+    border: $primary-border;
+    padding: 5px;
     button {
         @include buttonNoStyle();
         @include flexCenter(row);
         &:active {
             border: none;
         }
+    }
+    span {
+        font-weight: bold;
+        text-transform: capitalize;
     }
 
 }

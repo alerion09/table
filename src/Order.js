@@ -1,12 +1,12 @@
 import React from 'react';
 import {GrSave} from 'react-icons/gr'
-const Order = () => {
+const Order = ({columnPositionHandler, activeHeader, setInputColumnPosition}) => {
     
     return (
         <div className='column-position-container'>
-            <label htmlFor="column-position">Entry column position:</label>
-            <input type="text" name="column-position" id="column-position"/>
-            <button><GrSave /></button>
+            <label htmlFor="column-position">New position <span>{activeHeader}</span>:</label>
+            <input type="number" name="column-position" id="column-position" onChange={(event) => setInputColumnPosition(event.target.value)}/>
+            <button onClick={() => columnPositionHandler()}><GrSave /></button>
         </div>
     )
 } 
