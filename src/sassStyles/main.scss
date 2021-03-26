@@ -1,5 +1,6 @@
 
-$primary-border: solid 1px black;
+$primary-background: rgb(247, 247, 255);
+$secondary-background: rgb(183, 209, 244);
 
 @mixin selected {
     outline: 2px solid rgb(0, 0, 0);
@@ -31,6 +32,7 @@ $primary-border: solid 1px black;
 body {
     background-color: rgb(255, 255, 255);
     width: 100%;
+    font-family: 'calibri';
 }
 .container {
     @include flexCenter(column);
@@ -39,9 +41,11 @@ body {
 table{
     width: 95%;
     box-sizing: border-box;
+    background-color: $secondary-background;
 }
-table, th, td {
-    border: $primary-border;
+th, td {
+    
+    background-color: $primary-background;
 }
 td {
     padding:5px;
@@ -54,7 +58,7 @@ td {
         @include selected();
         box-sizing: border-box;
     }
-    &-icons {
+    &-icons,  &-name-pin{
         @include flexCenter(row);
         button {
             @include buttonNoStyle();
@@ -62,6 +66,11 @@ td {
             &:active {
                 border: none;
             }
+        }
+    }
+    &-name-pin {
+        button {
+            margin-left: 10px;
         }
     }
 }
@@ -77,8 +86,9 @@ td {
 .column-position-container {
     @include flexCenter(row);
     margin-bottom: 2vh;
-    border: $primary-border;
     padding: 5px;
+    background-color: $primary-background;
+    border: 2px solid $secondary-background;
     button {
         @include buttonNoStyle();
         @include flexCenter(row);
@@ -90,5 +100,7 @@ td {
         font-weight: bold;
         text-transform: capitalize;
     }
-
+}
+.pin-button {
+    margin-right: 20px;
 }

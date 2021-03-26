@@ -8,6 +8,7 @@
 body {
   background-color: white;
   width: 100%;
+  font-family: 'calibri';
 }
 
 .container {
@@ -31,10 +32,11 @@ table {
   width: 95%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  background-color: #b7d1f4;
 }
 
-table, th, td {
-  border: solid 1px black;
+th, td {
+  background-color: #f7f7ff;
 }
 
 td {
@@ -62,7 +64,7 @@ td {
           box-sizing: border-box;
 }
 
-.header-cell-icons {
+.header-cell-icons, .header-cell-name-pin {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -78,7 +80,7 @@ td {
           flex-direction: row;
 }
 
-.header-cell-icons button {
+.header-cell-icons button, .header-cell-name-pin button {
   background-color: transparent;
   border: 0;
   padding: 0;
@@ -99,8 +101,12 @@ td {
           flex-direction: row;
 }
 
-.header-cell-icons button:active {
+.header-cell-icons button:active, .header-cell-name-pin button:active {
   border: none;
+}
+
+.header-cell-name-pin button {
+  margin-left: 10px;
 }
 
 .hide {
@@ -129,8 +135,9 @@ td {
       -ms-flex-direction: row;
           flex-direction: row;
   margin-bottom: 2vh;
-  border: solid 1px black;
   padding: 5px;
+  background-color: #f7f7ff;
+  border: 2px solid #b7d1f4;
 }
 
 .column-position-container button {
@@ -161,5 +168,9 @@ td {
 .column-position-container span {
   font-weight: bold;
   text-transform: capitalize;
+}
+
+.pin-button {
+  margin-right: 20px;
 }
 /*# sourceMappingURL=main.css.map */

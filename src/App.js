@@ -26,6 +26,7 @@ function App() {
   const [isOrder, setIsOrder] = useState(false); //boolean
   const [activeHeader, setActiveHeader] = useState(); //Contain name of active header
   const [inputColumnPosition, setInputColumnPosition] = useState(); //Contain value of inserted number
+  const [stickyColumns, setStickyColumns] = useState();
 
   const fetchData = async  () => {
     try {
