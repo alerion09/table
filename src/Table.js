@@ -2,14 +2,14 @@ import React from 'react';
 import Row from './Row';
 import Header from './Header';
 
-const Table = ({headers, dataState, closeHandler, orderHandler, sortHandler}) => {
+const Table = ({headers, dataState, closeHandler, orderHandler, sortHandler, pinHandler}) => {
     return (
         <table>
             <thead>
                 <tr>
                     {headers.map((header, index) => {
                         return (
-                            <Header key={index} header={header} index={index} closeHandler={closeHandler} orderHandler={orderHandler} sortHandler={sortHandler}/>
+                            <Header key={index} header={header} index={index} closeHandler={closeHandler} orderHandler={orderHandler} sortHandler={sortHandler} pinHandler={pinHandler}/>
                         );
                     })}
                 </tr>

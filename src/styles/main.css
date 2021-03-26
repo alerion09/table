@@ -58,8 +58,7 @@ td {
 }
 
 .header-cell:hover {
-  outline: 2px solid black;
-  cursor: pointer;
+  outline: 2px solid #6da8f5;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -103,6 +102,16 @@ td {
 
 .header-cell-icons button:active, .header-cell-name-pin button:active {
   border: none;
+  outline: none;
+}
+
+.header-cell-icons button:hover, .header-cell-name-pin button:hover {
+  color: #6da8f5;
+}
+
+.header-cell-icons button:focus, .header-cell-name-pin button:focus {
+  border: none;
+  outline: none;
 }
 
 .header-cell-name-pin button {

@@ -1,10 +1,10 @@
 
-$primary-background: rgb(247, 247, 255);
-$secondary-background: rgb(183, 209, 244);
+$primary-color: rgb(247, 247, 255);
+$secondary-color: rgb(183, 209, 244);
+$tertiary-color:rgb(109, 168, 245);
 
 @mixin selected {
-    outline: 2px solid rgb(0, 0, 0);
-    cursor: pointer;
+    outline: 2px solid $tertiary-color;
 }
 @mixin flexCenter($direction) {
     display: flex;
@@ -41,11 +41,11 @@ body {
 table{
     width: 95%;
     box-sizing: border-box;
-    background-color: $secondary-background;
+    background-color: $secondary-color;
 }
 th, td {
     
-    background-color: $primary-background;
+    background-color: $primary-color;
 }
 td {
     padding:5px;
@@ -65,6 +65,14 @@ td {
             @include flexCenter(row);
             &:active {
                 border: none;
+                outline: none;
+            }
+            &:hover {
+                color: $tertiary-color;
+            }
+            &:focus {
+                border: none;
+                outline: none;
             }
         }
     }
@@ -87,8 +95,8 @@ td {
     @include flexCenter(row);
     margin-bottom: 2vh;
     padding: 5px;
-    background-color: $primary-background;
-    border: 2px solid $secondary-background;
+    background-color: $primary-color;
+    border: 2px solid $secondary-color;
     button {
         @include buttonNoStyle();
         @include flexCenter(row);

@@ -25,8 +25,8 @@ function App() {
   const [headers, setHeaders] = useState([]); //Contain header cells data
   const [isOrder, setIsOrder] = useState(false); //boolean
   const [activeHeader, setActiveHeader] = useState(); //Contain name of active header
-  const [inputColumnPosition, setInputColumnPosition] = useState(); //Contain value of inserted number
-  const [stickyColumns, setStickyColumns] = useState();
+  const [inputColumnPosition, setInputColumnPosition] = useState(null); //Contain value of inserted number
+  const [stickyColumns, setStickyColumns] = useState([]);
 
   const fetchData = async  () => {
     try {
@@ -71,15 +71,23 @@ function App() {
     setIsOrder(!isOrder);
   };
   const sortHandler = (header) => {
-    console.log('sort' + header);
+    console.log(stickyColumns);
+
   }
   const columnPositionHandler = () => {
     changeColumnPosition(activeHeader, headers, inputColumnPosition, dataState);
   };
+  const pinHandler = (header) => {
+    // stickyColumns.map((elem) => {
+      
+    // })
+    // setStickyColumns((current)=> [...current, header]);
+    // }
+  };
   // Function responsible for change column positon 
   const changeColumnPosition = (currentHeader, allHeaders, targetPosition, data) => {
     const numberOfHeaders = allHeaders.length;                        
-    if  (targetPosition > numberOfHeaders || targetPosition < 1 ) {
+    if  (targetPosition > numberOfHeaders || targetPosition < 1 || targetPosition==null) {
       console.log('error');
     } 
     else {
@@ -89,12 +97,13 @@ function App() {
         delete elem[currentHeader];                                     //Delete the key
         const entries = Object.entries(elem);                           //Convert object to arrays
         entries.splice(targetPosition-1,0,[currentHeader, tempValue]);  //Insert key and value to array
-        const newElem = Object.fromEntries(entries);                    //Convert arrays to object
-        newData.push(newElem);                                          //Push new element to temporary array
+        const newElem = Object.fromEntries(entries);                    //Convert arrays to object                                 
         return (                  
-          setDataState(newData)                                         //set changed data
+          newData.push(newElem)                                         //Push new element to temporary array
         )
       });
+      setDataState(newData);                                            //set changed data
+      setIsOrder(!isOrder);                                              
     };
   }
   if (dataState) {
@@ -103,7 +112,7 @@ function App() {
         <div className='container'>
           {/* <Navigation addRowHandler={addRowHandler} addColumnHandler={addColumnHandler}/> */}
           {isOrder && <Order columnPositionHandler={columnPositionHandler} activeHeader={activeHeader} setInputColumnPosition={setInputColumnPosition}/>}
-          <Table headers={headers} dataState={dataState} closeHandler={closeHandler} orderHandler={orderHandler} sortHandler={sortHandler}/>
+          <Table headers={headers} dataState={dataState} closeHandler={closeHandler} orderHandler={orderHandler} sortHandler={sortHandler} pinHandler={pinHandler}/>
         </div>
       </TableContext.Provider>
     );
