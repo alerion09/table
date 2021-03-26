@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+$margin: 5vw;
+@mixin selected {
+    outline: 2px solid rgb(0, 0, 0);
+    cursor: pointer;
+}
+@mixin flexCenter($direction) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: ($direction);
+}
+@mixin flexSpaceBetween {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+@mixin buttonNoStyle {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    font-size: 100%;
+    cursor: pointer;
+}
+body {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+}
+.container {
+    @include flexCenter(column);
+    margin-top: $margin;
+}
+table{
+    width: 95%;
+    box-sizing: border-box;
+}
+table, th, td {
+    border: solid 1px black;
+}
+td {
+    padding:5px;
+}
+.header-cell {
+    @include flexSpaceBetween();
+    padding: 5px;
+    text-transform: capitalize;
+    &:hover {
+        @include selected();
+        box-sizing: border-box;
+    }
+    &-icons {
+        @include flexCenter(row);
+        button {
+            @include buttonNoStyle();
+            @include flexCenter(row);
+            &:active {
+                border: none;
+            }
+        }
+    }
+}
+.hide{
+    display:none;
+}
+#column-position {
+    width: 20px;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.column-position-container {
+    button {
+        @include buttonNoStyle();
+        @include flexCenter(row);
+        &:active {
+            border: none;
+        }
+    }
+
+}
