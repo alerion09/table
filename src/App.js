@@ -23,7 +23,8 @@ function App() {
   
   const [dataState, setDataState] = useState(); //Contain fetched data
   const [headers, setHeaders] = useState([]); //Contain header cells data
-
+  const [isOrder, setIsOrder] = useState(false); //boolean
+  
   const fetchData = async  () => {
     try {
       const response = await fetch(url);
