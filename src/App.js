@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Table from './Table';
-
 import Order from './Order';
-// import Navigation from './Navigation';
+import Navigation from './Navigation';
+import RowInputs from './RowInputs';
+import ColumnInputs from './ColumnInputs';
 export const regexDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/; // Regex ISO date format
 export const TableContext = React.createContext();
 const url = 'https://e5a2cd5d-34bf-4638-a3ae-44eb2d3838b5.mock.pstmn.io/data/'; //API URL
@@ -24,6 +25,8 @@ function App() {
   const [dataState, setDataState] = useState(); //Contain fetched data
   const [headers, setHeaders] = useState([]); //Contain header cells data
   const [isOrder, setIsOrder] = useState(false); //boolean
+  const [isRowInputs, setIsRowInputs] = useState(false);//boolean
+  const [isColumnInputs, setIsColumnInputs] = useState(false);//boolean
   const [activeHeader, setActiveHeader] = useState(); //Contain name of active header
   const [inputColumnPosition, setInputColumnPosition] = useState(null); //Contain value of inserted number
   const [stickyColumns, setStickyColumns] = useState([]);
@@ -69,21 +72,46 @@ function App() {
     setInputColumnPosition();
     setActiveHeader(header);
     setIsOrder(!isOrder);
+    setIsColumnInputs(false);
+    setIsRowInputs(false);
   };
   const sortHandler = (header) => {
-    console.log(stickyColumns);
+    let dataCopy = [...dataState]
 
-  }
+    dataCopy.sort((a,b)=> {
+      if  (a[header] < b[header]) {
+        return -1;
+      }
+      if (a[header] > b[header]) {
+        return 1;
+      }
+      return 0;
+    });
+    setDataState(dataCopy);
+  };
   const columnPositionHandler = () => {
     changeColumnPosition(activeHeader, headers, inputColumnPosition, dataState);
+    setIsOrder(false);  
   };
   const pinHandler = (header) => {
-    // stickyColumns.map((elem) => {
+      if (!stickyColumns.includes(header)) {
+        setStickyColumns((current)=> [...current, header]);
+        changeColumnPosition(header, headers, 1, dataState);
+      }
+    };
+    const addRowHandler = () => {
       
-    // })
-    // setStickyColumns((current)=> [...current, header]);
-    // }
-  };
+      const numberOfRowCells = headers.length;
+      console.log(numberOfRowCells);
+      setIsRowInputs(!isRowInputs);
+      setIsColumnInputs(false);
+    }
+    const addColumnHandler = () => {
+      const numberOfRows = dataState.length;
+      console.log(numberOfRows);
+      setIsColumnInputs(!isColumnInputs);
+      setIsRowInputs(false);
+    }
   // Function responsible for change column positon 
   const changeColumnPosition = (currentHeader, allHeaders, targetPosition, data) => {
     const numberOfHeaders = allHeaders.length;                        
@@ -103,15 +131,17 @@ function App() {
         )
       });
       setDataState(newData);                                            //set changed data
-      setIsOrder(!isOrder);                                              
+                                            
     };
   }
   if (dataState) {
     return (
       <TableContext.Provider value={{checkIsMatch}}>
         <div className='container'>
-          {/* <Navigation addRowHandler={addRowHandler} addColumnHandler={addColumnHandler}/> */}
-          {isOrder && <Order columnPositionHandler={columnPositionHandler} activeHeader={activeHeader} setInputColumnPosition={setInputColumnPosition}/>}
+          {isOrder ? <Order columnPositionHandler={columnPositionHandler} activeHeader={activeHeader} setInputColumnPosition={setInputColumnPosition}/> 
+          : <Navigation addRowHandler={addRowHandler} addColumnHandler={addColumnHandler}/>}
+          {isRowInputs&&<RowInputs />}
+          {isColumnInputs&&<ColumnInputs />}
           <Table headers={headers} dataState={dataState} closeHandler={closeHandler} orderHandler={orderHandler} sortHandler={sortHandler} pinHandler={pinHandler}/>
         </div>
       </TableContext.Provider>

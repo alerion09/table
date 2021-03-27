@@ -11,7 +11,7 @@ const Header = ({header, index, orderHandler, closeHandler, sortHandler, pinHand
             <div className='header-cell'>
                 <div className='header-cell-name-pin'>
                     <span>{header}</span>
-                    <button onClick={()=> pinHandler(header)}><RiPushpin2Line /></button>
+                    <button id={`pin-${header}`} onClick={()=> pinHandler(header)}><RiPushpin2Line /></button>
                 </div>
                 <div className='header-cell-icons'>
                     <button onClick={()=> sortHandler(header)}><BiSort /></button>
