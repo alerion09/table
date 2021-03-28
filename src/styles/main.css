@@ -231,4 +231,69 @@ td {
 .navigation-container button:focus {
   outline: none;
 }
+
+.row-inputs-container, .column-inputs-container {
+  margin-bottom: 2vh;
+}
+
+.row-inputs-container button, .column-inputs-container button {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  font-size: 100%;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.row-inputs-container button:active, .column-inputs-container button:active {
+  border: none;
+}
+
+.row-inputs-container button:hover, .column-inputs-container button:hover {
+  color: #6da8f5;
+}
+
+.row-inputs-container button:focus, .column-inputs-container button:focus {
+  border: none;
+  outline: none;
+}
+
+.row-inputs-container input, .column-inputs-container input {
+  width: 100%;
+}
+
+.row-inputs-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.column-inputs-container-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
 /*# sourceMappingURL=main.css.map */

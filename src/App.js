@@ -6,7 +6,7 @@ import RowInputs from './RowInputs';
 import ColumnInputs from './ColumnInputs';
 export const regexDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/; // Regex ISO date format
 export const TableContext = React.createContext();
-const url = 'https://e5a2cd5d-34bf-4638-a3ae-44eb2d3838b5.mock.pstmn.io/data/'; //API URL
+const url = 'https://raw.githubusercontent.com/alerion09/data/main/table-data'; //API URL
 
 function App() {
 
@@ -30,7 +30,10 @@ function App() {
   const [activeHeader, setActiveHeader] = useState(); //Contain name of active header
   const [inputColumnPosition, setInputColumnPosition] = useState(null); //Contain value of inserted number
   const [stickyColumns, setStickyColumns] = useState([]);
-
+  const [inputsData, setInputsData] = useState(); //Contain OBJECT with inputs names and values 
+  const [headerName, setHeaderName] = useState();
+  const [rowInputsData, setRowInputsData] = useState();
+  
   const fetchData = async  () => {
     try {
       const response = await fetch(url);
@@ -39,11 +42,7 @@ function App() {
     } 
     catch (error) {
       console.log(error);
-    }
-  };
-
-  const getHeaders = (data) => {
-    setHeaders(Object.keys(data[0]));
+    };
   };
 
   useEffect(() => {
@@ -53,17 +52,42 @@ function App() {
   useEffect(() => {
     if(dataState){
       getHeaders(dataState);
-    }
+    };
   }, [dataState]);
 
+  const getHeaders = (data) => {
+    setHeaders(Object.keys(data[0]));
+  };
+   
+  // Function responsible for change column positon 
+  const changeColumnPosition = (currentHeader, allHeaders, targetPosition, data) => {
+    const numberOfHeaders = allHeaders.length;                        
+    if  (targetPosition > numberOfHeaders || targetPosition < 1 || targetPosition==null) {
+      console.log('error');
+    } 
+    else {
+      const newData = [];                                               //Temporary array 
+      data.map((elem) => {  
+        const tempValue = elem[currentHeader];                          //Get value of current key
+        delete elem[currentHeader];                                     //Delete the key
+        const entries = Object.entries(elem);                           //Convert object to arrays
+        entries.splice(targetPosition-1,0,[currentHeader, tempValue]);  //Insert key and value to array
+        const newElem = Object.fromEntries(entries);                    //Convert arrays to object                                 
+        return (                  
+          newData.push(newElem)                                         //Push new element to temporary array
+        );
+      });
+      setDataState(newData);                                            //set changed data              
+    };
+  };
   // Function responible for remove specific column
   const closeHandler = (header) => { 
     const newData = [];         //Temporary array for objects without specific properties
     dataState.map((elem) => {   //map every element of dataState
       delete elem[header];      //delete specific property of object
       return (                  
-        newData.push(elem)      //Add changed element to temporary array
-      )
+        newData.push(elem)     //Add changed element to temporary array
+      );
     });
     setDataState(newData);
     setIsOrder(false);      //Set dataState with new objects array
@@ -76,8 +100,7 @@ function App() {
     setIsRowInputs(false);
   };
   const sortHandler = (header) => {
-    let dataCopy = [...dataState]
-
+    let dataCopy = [...dataState];
     dataCopy.sort((a,b)=> {
       if  (a[header] < b[header]) {
         return -1;
@@ -97,51 +120,77 @@ function App() {
       if (!stickyColumns.includes(header)) {
         setStickyColumns((current)=> [...current, header]);
         changeColumnPosition(header, headers, 1, dataState);
-      }
+      };
     };
-    const addRowHandler = () => {
-      
-      const numberOfRowCells = headers.length;
-      console.log(numberOfRowCells);
-      setIsRowInputs(!isRowInputs);
-      setIsColumnInputs(false);
-    }
-    const addColumnHandler = () => {
-      const numberOfRows = dataState.length;
-      console.log(numberOfRows);
-      setIsColumnInputs(!isColumnInputs);
-      setIsRowInputs(false);
-    }
-  // Function responsible for change column positon 
-  const changeColumnPosition = (currentHeader, allHeaders, targetPosition, data) => {
-    const numberOfHeaders = allHeaders.length;                        
-    if  (targetPosition > numberOfHeaders || targetPosition < 1 || targetPosition==null) {
+  const addRowHandler = () => {
+    setIsRowInputs(!isRowInputs);
+    setIsColumnInputs(false);
+  };
+  const addColumnHandler = () => {
+    setIsColumnInputs(!isColumnInputs);
+    setIsRowInputs(false);
+  };
+  //Function get value and name from inputs and set them as object
+  const getInput = (event) => {
+    const target = event.target;
+    const name = event.target.name;
+    setInputsData((current) => {
+      return (
+        {...current,[name]:target.value}
+      );
+    });
+  };
+  const confirmRowHandler = () => {
+    if (inputsData == null) {
       console.log('error');
-    } 
+    }
     else {
-      const newData = [];                                               //Temporary array 
-      data.map((elem) => {  
-        const tempValue = elem[currentHeader];                          //Get value of current key
-        delete elem[currentHeader];                                     //Delete the key
-        const entries = Object.entries(elem);                           //Convert object to arrays
-        entries.splice(targetPosition-1,0,[currentHeader, tempValue]);  //Insert key and value to array
-        const newElem = Object.fromEntries(entries);                    //Convert arrays to object                                 
-        return (                  
-          newData.push(newElem)                                         //Push new element to temporary array
-        )
+      const headersCopy = [...headers];
+      headersCopy.map((element, index) => {
+        return (
+        headersCopy[index] = (inputsData[index])||''
+        );
       });
-      setDataState(newData);                                            //set changed data
-                                            
+      const newHeaders = Object.assign({},headersCopy);
+      const entries = Object.entries(newHeaders);
+      for (let i = 0; i < entries.length; i++) {
+        entries[i][0] = headers[i]
+      }
+      const resultantRow = Object.fromEntries(entries);  
+      setDataState((current) => {
+        return (
+          [...current, resultantRow]
+        );
+      });
+      setIsRowInputs(false);
+      setInputsData();
     };
-  }
+  };
+  const confirmColumnHandler = () => {
+    if (inputsData == null || headerName == null) {
+      console.log('error');
+    }
+    else {
+      const dataCopy = [...dataState];
+      dataCopy.map((element, index) => {
+        return (
+         element[headerName] = (inputsData[index])||'' //If element in inputsData doesnt exist then push empty string
+        );
+      });
+      setDataState(dataCopy);
+      setIsColumnInputs(false);
+      setHeaderName();
+      setInputsData();
+    };
+  };
   if (dataState) {
     return (
       <TableContext.Provider value={{checkIsMatch}}>
         <div className='container'>
           {isOrder ? <Order columnPositionHandler={columnPositionHandler} activeHeader={activeHeader} setInputColumnPosition={setInputColumnPosition}/> 
           : <Navigation addRowHandler={addRowHandler} addColumnHandler={addColumnHandler}/>}
-          {isRowInputs&&<RowInputs />}
-          {isColumnInputs&&<ColumnInputs />}
+          {isRowInputs&&<RowInputs headers={headers} confirmRowHandler={confirmRowHandler} getInput={getInput} inputsData={inputsData}/>}
+          {isColumnInputs&&<ColumnInputs dataState={dataState} confirmColumnHandler={confirmColumnHandler} getInput={getInput} setHeaderName={setHeaderName}/>}
           <Table headers={headers} dataState={dataState} closeHandler={closeHandler} orderHandler={orderHandler} sortHandler={sortHandler} pinHandler={pinHandler}/>
         </div>
       </TableContext.Provider>
@@ -152,9 +201,8 @@ function App() {
       <>
         Loading...
       </>
-    )
-  }
-  
-}
+    );
+  };
+};
 
 export default App;

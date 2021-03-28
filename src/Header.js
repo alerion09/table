@@ -2,7 +2,7 @@ import React from 'react';
 import {BiSort} from 'react-icons/bi';
 import {CgClose} from 'react-icons/cg';
 import {HiOutlineSwitchHorizontal} from 'react-icons/hi';
-import {RiPushpin2Line} from 'react-icons/ri'
+import {RiPushpin2Line} from 'react-icons/ri';
 
 const Header = ({header, index, orderHandler, closeHandler, sortHandler, pinHandler}) => {
     
@@ -20,6 +20,6 @@ const Header = ({header, index, orderHandler, closeHandler, sortHandler, pinHand
                 </div> 
             </div>
         </th>
-    )
+    );
 }; 
 export default Header;
