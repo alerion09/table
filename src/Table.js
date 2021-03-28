@@ -2,7 +2,7 @@ import React from 'react';
 import Row from './Row';
 import Header from './Header';
 
-const Table = ({headers, dataState, closeHandler, orderHandler, sortHandler, pinHandler}) => {
+const Table = ({headers, dataState, closeHandler, orderHandler, sortHandler, pinHandler, amountOfDisplayData}) => {
     return (
         <table>
             <thead>
@@ -15,7 +15,7 @@ const Table = ({headers, dataState, closeHandler, orderHandler, sortHandler, pin
                 </tr>
             </thead>  
             <tbody>
-                {dataState.map((object, index) => {
+                {dataState.slice(0,amountOfDisplayData).map((object, index) => {
                     return(
                         <Row key={index} id={index} object={object}/>
                     );

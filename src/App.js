@@ -4,35 +4,28 @@ import Order from './Order';
 import Navigation from './Navigation';
 import RowInputs from './RowInputs';
 import ColumnInputs from './ColumnInputs';
+import PageNavigation from './PageNavigation';
 export const regexDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/; // Regex ISO date format
 export const TableContext = React.createContext();
 const url = 'https://raw.githubusercontent.com/alerion09/data/main/table-data'; //API URL
 
 function App() {
 
-  //Function check is value match to regex format - if do, then return a human friendly formated date
-  const checkIsMatch = (value) => {
-    const stringValue = value.toString();
-    if  (stringValue.match(regexDate)) {
-      const date = new Date(value);
-      return (date.toLocaleString());
-    }
-    else {
-      return value;
-    }
-  };
-  
-  const [dataState, setDataState] = useState(); //Contain fetched data
-  const [headers, setHeaders] = useState([]); //Contain header cells data
+  //STATES-------------------------------
+  const [dataState, setDataState] = useState(); //Contains fetched data
+  const [headers, setHeaders] = useState([]); //Contains header cells data
   const [isOrder, setIsOrder] = useState(false); //boolean
   const [isRowInputs, setIsRowInputs] = useState(false);//boolean
   const [isColumnInputs, setIsColumnInputs] = useState(false);//boolean
-  const [activeHeader, setActiveHeader] = useState(); //Contain name of active header
-  const [inputColumnPosition, setInputColumnPosition] = useState(null); //Contain value of inserted number
-  const [stickyColumns, setStickyColumns] = useState([]);
-  const [inputsData, setInputsData] = useState(); //Contain OBJECT with inputs names and values 
-  const [headerName, setHeaderName] = useState();
+  const [activeHeader, setActiveHeader] = useState(); //Contains name of active header
+  const [inputColumnPosition, setInputColumnPosition] = useState(null); //Contains value of inserted number of column by user
+  const [stickyColumns, setStickyColumns] = useState([]); //Contains data of sticky Column
+  const [inputsData, setInputsData] = useState(); //Contains OBJECT with inputs names and values 
+  const [headerName, setHeaderName] = useState(); //Contains name of header
+  const [amountOfDisplayData, setAmountOfDisplayData] = useState(8); //Contains number of items to display
+  const [counterOfDisplayData, setCounterOfDisplayData] = useState(8); //Counter 
   
+  //Function get data from API and set to dataState
   const fetchData = async  () => {
     try {
       const response = await fetch(url);
@@ -48,16 +41,28 @@ function App() {
     fetchData();
   }, []);
   
+  //If dataState has changes then run getHeaders function
   useEffect(() => {
     if(dataState){
       getHeaders(dataState);
     };
   }, [dataState]);
 
+  //Function getting headers from first item of data
   const getHeaders = (data) => {
     setHeaders(Object.keys(data[0]));
   };
-   
+  //Function check is value match to regex format - if do, then return a human friendly formated date
+  const checkIsMatch = (value) => {
+    const stringValue = value.toString();
+    if  (stringValue.match(regexDate)) {
+      const date = new Date(value);
+      return (date.toLocaleString());
+    }
+    else {
+      return value;
+    }
+  };
   // Function responsible for change column positon 
   const changeColumnPosition = (currentHeader, allHeaders, targetPosition, data) => {
     const numberOfHeaders = allHeaders.length;                        
@@ -98,6 +103,7 @@ function App() {
     setIsColumnInputs(false);
     setIsRowInputs(false);
   };
+  //Sorting function in Handler 
   const sortHandler = (header) => {
     let dataCopy = [...dataState];
     dataCopy.sort((a,b)=> {
@@ -149,7 +155,7 @@ function App() {
       const headersCopy = [...headers];
       headersCopy.map((element, index) => {
         return (
-        headersCopy[index] = (inputsData[index])||''
+        headersCopy[index] = (inputsData[index])||''    //If element in inputsData doesnt exist then push empty string
         );
       });
       const newHeaders = Object.assign({},headersCopy);
@@ -184,6 +190,10 @@ function App() {
       setInputsData();
     };
   };
+  //More button handler
+  const moreHandler = () => {
+    setAmountOfDisplayData(amountOfDisplayData+counterOfDisplayData);
+  }
   if (dataState) {
     return (
       <TableContext.Provider value={{checkIsMatch}}>
@@ -192,7 +202,10 @@ function App() {
           : <Navigation addRowHandler={addRowHandler} addColumnHandler={addColumnHandler}/>}
           {isRowInputs&&<RowInputs headers={headers} confirmRowHandler={confirmRowHandler} getInput={getInput} inputsData={inputsData}/>}
           {isColumnInputs&&<ColumnInputs dataState={dataState} confirmColumnHandler={confirmColumnHandler} getInput={getInput} setHeaderName={setHeaderName}/>}
-          <Table headers={headers} dataState={dataState} closeHandler={closeHandler} orderHandler={orderHandler} sortHandler={sortHandler} pinHandler={pinHandler}/>
+          <Table headers={headers} dataState={dataState} closeHandler={closeHandler} orderHandler={orderHandler} sortHandler={sortHandler} 
+          pinHandler={pinHandler} amountOfDisplayData={amountOfDisplayData}/>
+          {dataState.length > amountOfDisplayData&&<PageNavigation moreHandler={moreHandler}/>}
+          
         </div>
       </TableContext.Provider>
     );
@@ -200,7 +213,9 @@ function App() {
   else {
     return (
       <>
-        Loading...
+        <div className='loading-container'>
+          <h2>Loading...</h2>
+        </div> 
       </>
     );
   };

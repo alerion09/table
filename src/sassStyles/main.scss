@@ -49,9 +49,10 @@ body {
     height: 100%;
 }
 table{
-    width: 95%;
+    min-width: 80%;
     box-sizing: border-box;
     background-color: $secondary-color;
+    margin-bottom: 2vh;
 }
 th, td {
     
@@ -204,11 +205,19 @@ td {
     &-input {
         padding:5px;
     }
-    input {
-    }
 }
 .bottom-button {
     display: flex;
     justify-content: flex-end;
     padding: 5px;
+}
+.page-navigation-container {
+    button {
+        min-width: 100px;
+        padding: 5px;
+    }
+    margin-bottom: 2vh;
+}
+.loading-container {
+    padding:20px;
 }

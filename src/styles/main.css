@@ -39,10 +39,11 @@ body {
 }
 
 table {
-  width: 95%;
+  min-width: 80%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   background-color: #b7d1f4;
+  margin-bottom: 2vh;
 }
 
 th, td {
@@ -335,5 +336,18 @@ td {
       -ms-flex-pack: end;
           justify-content: flex-end;
   padding: 5px;
+}
+
+.page-navigation-container {
+  margin-bottom: 2vh;
+}
+
+.page-navigation-container button {
+  min-width: 100px;
+  padding: 5px;
+}
+
+.loading-container {
+  padding: 20px;
 }
 /*# sourceMappingURL=main.css.map */
