@@ -285,6 +285,29 @@ td {
           flex-direction: column;
 }
 
+.column-inputs-container {
+  width: 20%;
+  height: 200px;
+}
+
+.column-inputs-container-inside {
+  background-color: #f7f7ff;
+  border: 2px solid #b7d1f4;
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+  max-height: 100%;
+  width: auto;
+}
+
 .column-inputs-container-header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -295,5 +318,14 @@ td {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  padding: 5px;
+}
+
+.column-inputs-container-header-input {
+  padding: 5px;
+}
+
+.column-inputs-container-input {
+  padding: 5px;
 }
 /*# sourceMappingURL=main.css.map */

@@ -32,7 +32,6 @@ function App() {
   const [stickyColumns, setStickyColumns] = useState([]);
   const [inputsData, setInputsData] = useState(); //Contain OBJECT with inputs names and values 
   const [headerName, setHeaderName] = useState();
-  const [rowInputsData, setRowInputsData] = useState();
   
   const fetchData = async  () => {
     try {
