@@ -12,6 +12,9 @@ const ColumnInputs = ({dataState, confirmColumnHandler, getInput, setHeaderName}
                 <div className='column-inputs-container-header-input'>
                     <input type="text" name="header" onChange={(event)=>setHeaderName(event.target.value)}/>
                 </div>
+                <div className='column-inputs-container-header'>
+                    <label>Rows:</label>
+                </div>
                 {dataState.map((element, index)=> {
                     return (
                         <div key={index} className='column-inputs-container-input'>
@@ -19,6 +22,9 @@ const ColumnInputs = ({dataState, confirmColumnHandler, getInput, setHeaderName}
                         </div>
                     );
                 })}
+                <div className='bottom-button'>
+                    <button onClick={() => confirmColumnHandler()}><GrSave/></button>
+                </div>
             </div>
         </div>
     )

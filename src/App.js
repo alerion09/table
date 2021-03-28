@@ -124,10 +124,12 @@ function App() {
   const addRowHandler = () => {
     setIsRowInputs(!isRowInputs);
     setIsColumnInputs(false);
+    setInputsData();
   };
   const addColumnHandler = () => {
     setIsColumnInputs(!isColumnInputs);
     setIsRowInputs(false);
+    setInputsData();
   };
   //Function get value and name from inputs and set them as object
   const getInput = (event) => {

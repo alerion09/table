@@ -30,8 +30,6 @@ $tertiary-color:rgb(109, 168, 245);
 }
 html {
     font-size: 62.5%;
-    width: 100%;
-    height: 100%;
 }
 body {
     background-color: rgb(255, 255, 255);
@@ -208,4 +206,9 @@ td {
     }
     input {
     }
+}
+.bottom-button {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
 }
